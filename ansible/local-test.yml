@@ -1,0 +1,13 @@
+---
+- name: Validate Semaphore execution
+  hosts: local
+  gather_facts: true
+  connection: local
+  tasks:
+    - name: Show runner information
+      ansible.builtin.debug:
+        msg:
+          - "Semaphore runner is working"
+          - "Hostname: {{ ansible_hostname }}"
+          - "OS: {{ ansible_distribution | default('unknown') }}"
+          - "User: {{ ansible_user_id }}"
