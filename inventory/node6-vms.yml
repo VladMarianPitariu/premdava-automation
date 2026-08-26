@@ -1,7 +1,7 @@
 ---
 hyperv_host: node6
 host_ip: 192.168.250.81
-private_network: 192.168.249.0/28
+private_network: 192.168.249.80/28
 
 vms:
   - name: fw-6-opnsense
