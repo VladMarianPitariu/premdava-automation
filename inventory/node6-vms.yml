@@ -1,0 +1,21 @@
+---
+hyperv_host: node6
+host_ip: 192.168.250.81
+private_network: 192.168.249.0/28
+
+vms:
+  - name: fw-6-opnsense
+    private_ip: 192.168.249.81
+    internal_ip: 192.168.250.82
+  - name: prmdv-node-6-rke2-cp-01
+    private_ip: 192.168.249.83
+  - name: prmdv-node-6-rke2-wk-01
+    private_ip: 192.168.249.84
+  - name: prmdv-node-6-infra
+    private_ip: 192.168.249.86
+  - name: alpine-netbird
+    private_ip: null
+    note: IP not reported by Hyper-V integration services
+  - name: UbuntuMirror
+    state: off
+    private_ip: null
