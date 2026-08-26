@@ -1,0 +1,42 @@
+---
+- name: Read monitoring status from Prometheus
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    prometheus_api_url: "{{ lookup('ansible.builtin.env', 'PROMETHEUS_API_URL') | default('', true) }}"
+    report_only: true
+    endpoint_query: 'probe_success{job=~"blackbox_internal_endpoints|blackbox_icmp_hosts"}'
+    host_query: 'up{job=~"windows_exporter|node_exporter"}'
+  tasks:
+    - name: Require Prometheus API URL
+      ansible.builtin.assert:
+        that:
+          - prometheus_api_url | length > 0
+        fail_msg: >-
+          Set PROMETHEUS_API_URL to the Prometheus API base URL, for example
+          http://prometheus:9090.
+
+    - name: Query endpoint status
+      ansible.builtin.uri:
+        url: "{{ prometheus_api_url }}/api/v1/query?query={{ endpoint_query | urlencode }}"
+        method: GET
+        return_content: true
+        status_code: 200
+      register: endpoint_status
+
+    - name: Query host status
+      ansible.builtin.uri:
+        url: "{{ prometheus_api_url }}/api/v1/query?query={{ host_query | urlencode }}"
+        method: GET
+        return_content: true
+        status_code: 200
+      register: host_status
+
+    - name: Report endpoint and host status
+      ansible.builtin.debug:
+        msg:
+          report_only: "{{ report_only }}"
+          endpoint_results: "{{ endpoint_status.json.data.result | default([]) }}"
+          host_results: "{{ host_status.json.data.result | default([]) }}"
+

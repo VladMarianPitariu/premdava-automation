@@ -1,0 +1,11 @@
+---
+# Replace the example values after the Prometheus labels and Hyper-V VM names
+# have been verified. This file is data only; it must not contain credentials.
+targets:
+  - instance: example-endpoint
+    hyperv_host: node7
+    vm_name: example-vm
+    service: example-service
+    action: none
+    automation: disabled
+

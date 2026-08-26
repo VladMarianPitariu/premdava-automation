@@ -1,0 +1,22 @@
+---
+- name: Capture a configuration checkpoint
+  hosts: hyperv_hosts
+  gather_facts: true
+  vars:
+    checkpoint_kind: "{{ checkpoint_kind | default('manual') }}"
+    report_only: true
+  tasks:
+    - name: Report checkpoint metadata
+      ansible.builtin.debug:
+        msg:
+          snapshot_kind: "{{ checkpoint_kind }}"
+          report_only: "{{ report_only }}"
+          host: "{{ inventory_hostname }}"
+          captured_at: "{{ ansible_date_time.iso8601 }}"
+          ansible_facts: "{{ ansible_facts }}"
+
+    - name: Explain pending host-specific collectors
+      ansible.builtin.debug:
+        msg: >-
+          Hyper-V, VM, switch, VHDX and service collectors will be enabled after
+          node7 connectivity and the Windows runner are validated.
