@@ -7,6 +7,7 @@
     grafana_url: "{{ lookup('ansible.builtin.env', 'GRAFANA_URL') | default('', true) }}"
     grafana_token: "{{ lookup('ansible.builtin.env', 'GRAFANA_TOKEN') | default('', true) }}"
     prometheus_datasource_uid: "{{ lookup('ansible.builtin.env', 'GRAFANA_PROMETHEUS_DS_UID') | default('ffidfenffgyyoe', true) }}"
+    grafana_ca_path: "{{ lookup('ansible.builtin.env', 'GRAFANA_CA_PATH') | default('', true) }}"
     report_only: true
     endpoint_query: 'probe_success{job=~"blackbox_internal_endpoints|blackbox_icmp_hosts"}'
     host_query: 'up{job=~"windows_exporter|node_exporter"}'
@@ -25,6 +26,7 @@
         method: GET
         headers:
           Authorization: "Bearer {{ grafana_token }}"
+        ca_path: "{{ grafana_ca_path if grafana_ca_path | length > 0 else omit }}"
         return_content: true
         status_code: 200
         validate_certs: true
@@ -37,6 +39,7 @@
         method: GET
         headers:
           Authorization: "Bearer {{ grafana_token }}"
+        ca_path: "{{ grafana_ca_path if grafana_ca_path | length > 0 else omit }}"
         return_content: true
         status_code: 200
         validate_certs: true
