@@ -40,6 +40,7 @@ services:
       - ./data/playbooks:/workspace/playbooks
       - ./data/projects:/workspace/projects
       - ./config/requirements.txt:/etc/semaphore/requirements.txt
+      - ./certs/premdava-root-ca.crt:/etc/premdava/premdava-root-ca.crt:ro
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/ping"]
       interval: 15s
