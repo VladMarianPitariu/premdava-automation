@@ -28,8 +28,8 @@
         return_content: true
         status_code: 200
         validate_certs: true
-        no_log: true
       register: endpoint_status
+      no_log: true
 
     - name: Query host status
       ansible.builtin.uri:
@@ -40,8 +40,8 @@
         return_content: true
         status_code: 200
         validate_certs: true
-        no_log: true
       register: host_status
+      no_log: true
 
     - name: Report endpoint and host status
       ansible.builtin.debug:
