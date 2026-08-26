@@ -1,0 +1,6 @@
+ansible
+netaddr
+jmespath
+pywinrm
+requests
+passlib
